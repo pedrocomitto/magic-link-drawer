@@ -11,12 +11,7 @@ services:
   rabbitmq:
     image: rabbitmq:3
     container_name: rabbitmq
-#    volumes:
-#      - ./.docker/rabbitmq/etc/:/etc/rabbitmq/
-#      - ./.docker/rabbitmq/data/:/var/lib/rabbitmq/
-#      - ./.docker/rabbitmq/logs/:/var/log/rabbitmq/
     environment:
-      RABBITMQ_ERLANG_COOKIE: ${RABBITMQ_ERLANG_COOKIE}
       RABBITMQ_DEFAULT_USER: "guest"
       RABBITMQ_DEFAULT_PASS: "guest"
       RABBITMQ_DEFAULT_VHOST: "/drawer"
