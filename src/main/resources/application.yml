@@ -1,0 +1,48 @@
+spring:
+  application:
+    name: drawer
+
+  redis:
+    cluster:
+      password: bitnami
+      nodes:
+        - 0.0.0.0:6379
+        - 0.0.0.0:6380
+        - 0.0.0.0:6381
+        - 0.0.0.0:6382
+        - 0.0.0.0:6383
+        - 0.0.0.0:6384
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: email@email.com
+    password: password
+    properties:
+      mail:
+        smtp:
+          auth: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+          starttls:
+            enable: true
+
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: db_drawer
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /drawer
+    listener:
+      simple:
+        retry:
+          enabled: true
+
+# do not use default spring amqp retry in production, it locks the consumer
