@@ -3,22 +3,28 @@ package com.pedrocomitto.drawer.consumer
 import com.pedrocomitto.drawer.config.RabbitConfig
 import com.pedrocomitto.drawer.config.stereotype.Consumer
 import com.pedrocomitto.drawer.document.Participation
-import com.pedrocomitto.drawer.usecase.SendConfirmEmailUseCase
+import com.pedrocomitto.drawer.notification.Notification
+import com.pedrocomitto.drawer.notification.NotificationSender
+import com.pedrocomitto.drawer.service.TokenService
 import org.slf4j.LoggerFactory
 import org.springframework.amqp.rabbit.annotation.RabbitListener
 
 @Consumer
 class ParticipationConsumer(
-    private val sendConfirmEmailUseCase: SendConfirmEmailUseCase
+    private val notificationSender: NotificationSender,
+    private val tokenService: TokenService
 ) {
 
     private val log = LoggerFactory.getLogger(javaClass)
 
     @RabbitListener(queues = [RabbitConfig.QUEUE_NAME])
     fun consume(participation: Participation) {
-        log.info("consuming message, email=${participation.email}")
+        log.info("M=consume, I=consuming message, email=${participation.email}")
 
-        sendConfirmEmailUseCase.execute(participation)
+        val notification = Notification.of(participation)
+
+        tokenService.createToken(hashMapOf("participation" to participation))
+            .let { notificationSender.send(it, notification) }
     }
 
 }
