@@ -3,10 +3,11 @@ package com.pedrocomitto.drawer.service.impl
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.pedrocomitto.drawer.document.Participation
 import com.pedrocomitto.drawer.exception.AlreadyParticipatingException
-import com.pedrocomitto.drawer.notification.Notification
 import com.pedrocomitto.drawer.producer.ParticipationProducer
 import com.pedrocomitto.drawer.repository.ParticipationRepository
+import com.pedrocomitto.drawer.service.CacheService
 import com.pedrocomitto.drawer.service.ParticipationService
+import com.pedrocomitto.drawer.service.TokenService
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import java.time.Duration
@@ -15,8 +16,8 @@ import java.time.Duration
 class ParticipationServiceImpl(
     private val participationRepository: ParticipationRepository,
     private val participationProducer: ParticipationProducer,
-    private val cacheService: CacheServiceImpl,
-    private val tokenService: TokenServiceImpl,
+    private val cacheService: CacheService,
+    private val tokenService: TokenService,
 ) : ParticipationService {
 
     private val log = LoggerFactory.getLogger(javaClass)
